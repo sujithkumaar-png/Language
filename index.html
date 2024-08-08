@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('your-image-url.jpg'); /* Add the path to your background image here */
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+        select {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Language Translator</h1>
+        
+        <textarea id="inputText" placeholder="Enter text to translate..."></textarea>
+        
+        <select id="languageSelect">
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh-CN">Chinese (Simplified)</option>
+            <option value="hi">Hindi</option>
+            <option value="ta">Tamil</option> 
+            <!-- Add more languages as needed -->
+        </select>
+        
+        <button onclick="translateText()">Translate</button>
+        
+        <h2>Translated Text:</h2>
+        <textarea id="outputText" readonly></textarea>
+    </div>
+
+    <script>
+        function translateText() {
+            const inputText = document.getElementById("inputText").value;
+            const language = document.getElementById("languageSelect").value;
+            
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${language}&dt=t&q=${encodeURI(inputText)}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const translatedText = data[0][0][0];
+                    document.getElementById("outputText").value = translatedText;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+</html>
+
+
